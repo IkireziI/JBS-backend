@@ -17,3 +17,5 @@ Database: MongoDB, Mongoose
 File Upload: Multer
 Authentication: JWT (JSON Web Tokens)
 Other: bcrypt for password hashing
+
+Deployed link: https://jbs-backend.onrender.com
