@@ -18,4 +18,5 @@ File Upload: Multer
 Authentication: JWT (JSON Web Tokens)
 Other: bcrypt for password hashing
 
-Deployed link: https://jbs-backend.onrender.com
+Deployed link:  https://jbs-backend.onrender.com/api/v1/users
+
