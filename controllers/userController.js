@@ -1,10 +1,10 @@
 import UserModel from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
+import sendEmail from '../middlewares/sendEmail.js';
 
-
-export const SignUp = async (req, res, next) => {
+export  const SignUp = async (req, res, next) => {
   try {
-    const { FirstName,LastName, email, Password} = req.body;
+    const { firstName, lastName, email, password, role } = req.body; // Adjust to lowercase
 
     console.log("SignUp request received with body:", req.body); // Add logging for debugging
 
@@ -13,19 +13,23 @@ export const SignUp = async (req, res, next) => {
     if (userExists) {
       return res.status(401).json("User with this email already exists");
     } else {
-      const hashedPassword = bcryptjs.hashSync(Password, 10);
+      const hashedPassword = bcryptjs.hashSync(password, 10); // Adjust to lowercase
 
       const newUser = new UserModel({
-        FirstName: FirstName,
-        LastName: LastName,
-        email: email,
-        Password: hashedPassword,
+        firstName, // Adjust to lowercase
+        lastName,  // Adjust to lowercase
+        email, 
+        password: hashedPassword, // Adjust to lowercase
+        role     // Ensure role is saved correctly
       });
 
       const savedUser = await newUser.save();
 
       // Use the Name to personalize the email
-      
+      const subject = `Welcome to OpportunityTank`;
+      const message = `Dear ${firstName},\n\nYou have successfully created your account! Thank you for joining the large community of OpportunityTank. We are happy to welcome you aboard!\n\n\nIf you need to continue as an employer reach out to this email for more clarification email:kl@opportunitytank.com`;
+
+      await sendEmail(email, subject, message);
       return res.status(200).json({ message: "Account created!", savedUser });
     }
   } catch (error) {
@@ -33,7 +37,6 @@ export const SignUp = async (req, res, next) => {
     res.status(500).json(error.message);
   }
 };
-
 export const SignIn = async (req, res, next) => {
   const { email, Password } = req.body;
   console.log("SignIn request received with body:", req.body); // Add logging for debugging
@@ -93,4 +96,5 @@ export const updateUser = async (req, res) => {
     console.log(error);
     res.status(500).send(error.message);
   }
-};;
+};
+

@@ -1,12 +1,11 @@
-import userRouter from './userRoute.js';
-
-
 import express from 'express';
+import userRouter from './userRoute.js';
+import jobRouter from './jobRoute.js';
+
 const allRoutes = express.Router();
 
-
-allRoutes.use('/users',userRouter);
-
-
+// Combine user and job routes
+allRoutes.use('/users', userRouter);
+allRoutes.use('/jobs', jobRouter);
 
 export default allRoutes;
